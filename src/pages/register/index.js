@@ -5,11 +5,9 @@ import Link from "next/link";
 
 import { useState } from "react";
 
-
-
 import { registerUser } from "@/services/authService";
 
-export default function Register ({}) {
+export default function Register () {
 
     const [email, setEmail] = useState();
     const [username, setUsername] = useState();

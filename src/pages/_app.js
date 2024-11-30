@@ -28,8 +28,8 @@ function AuthGuard({ children }) {
     }
   }, [isAuthenticated, router]);
 
-  if (!isAuthenticated && router.pathname !== '/login') {
-      return null;
+  if (!isAuthenticated && (router.pathname !== '/login' && router.pathname !== '/register')) {
+    return null;
   }
 
   return children;
