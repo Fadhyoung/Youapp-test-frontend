@@ -29,8 +29,6 @@ body {
   font-family: 'Inter', sans-serif;
 }
 
-.white-6 { background-color: var(--white-6);}
-
 .foreground2 { background-color: var(--foreground2);}
 .foreground3 { background-color: var(--foreground3);}
 

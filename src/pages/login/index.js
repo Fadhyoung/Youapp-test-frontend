@@ -62,18 +62,18 @@ export default function Login () {
 
                 <form onSubmit={handleLogin}>
                 <div className="flex flex-col gap-4">
-                    <input  className="p-6 rounded-lg white-6" 
+                    <input  className="p-6 rounded-lg text-white-30 bg-white-6" 
                             type="text"
                             placeholder="Enter Username/Email"
-                            value={username}
+                            value={username || ''}
                             onChange={(e) => setUsername(e.target.value)}
                              />
 
                     <div className="w-full relative flex justify-center items-center">
-                        <input  className="p-6 w-full rounded-lg white-6" 
+                        <input  className="p-6 w-full rounded-lg text-white-30 bg-white-6" 
                                 type={showPassword ? "text" : "password"}
                                 placeholder="Enter Password" 
-                                value={password}
+                                value={password || ''}
                                 onChange={(e) => setPassword(e.target.value)}
                                 />
                         <button className="h-full px-4 absolute right-5 cursor-pointer" type="button" onClick={togglePasswordVisibility}>
