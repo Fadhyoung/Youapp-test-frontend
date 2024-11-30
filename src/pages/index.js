@@ -47,6 +47,9 @@ export default function Home() {
         setHeight(Height)
         setWeight(Weight)
         setInterest(Interests)
+
+        const userImage = localStorage.getItem('user_image');
+        userImage ? setImageFile(userImage) : localStorage.setItem('user_image', null);
     
         console.log("succedd fetch data", DisplayName, Birthday)
       } catch (error) {
@@ -72,6 +75,7 @@ export default function Home() {
     const file = event.target.files[0];
     if (file) {
       const objectURL = URL.createObjectURL(file);
+      localStorage.setItem('user_image', objectURL);
       setImageFile(objectURL);
       console.log("Uploaded file:", file);
     }

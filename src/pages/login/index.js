@@ -88,7 +88,7 @@ export default function Login () {
                     </div>
                 
                 
-                <button className={` ${Styles.button1} `} type="submit" >Login</button>
+                <button className={` ${Styles.button1} text-white `} type="submit" >Login</button>
 
                 </div>
                 </form>

@@ -49,22 +49,22 @@ export default function Register () {
                 <form onSubmit={handleRegister}>
                 <div className="flex flex-col gap-4">
 
-                    <input  className="p-6 rounded-lg white-6" 
+                    <input  className="p-6 rounded-lg text-white-30 bg-white-6" 
                             type="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             placeholder="Enter Email"
                              />
 
-                    <input  className="p-6 rounded-lg white-6" 
+                    <input  className="p-6 rounded-lg text-white-30 bg-white-6" 
                             type="username"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                             placeholder="Enter Username"
                              />         
 
-                    <div className="relative flex items-center justify-between rounded-lg white-6">
-                        <input  className="w-full p-6 bg-transparent" 
+                    <div className="relative flex items-center justify-between rounded-lg bg-white-6">
+                        <input  className="w-full p-6 bg-transparent text-white-30" 
                                 type={showPassword ? "text" : "password"}
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
@@ -81,8 +81,8 @@ export default function Register () {
                         </button>
                     </div>
 
-                    <div className="relative flex items-center justify-between rounded-lg white-6">
-                        <input  className="w-full p-6 bg-transparent" 
+                    <div className="relative flex items-center justify-between rounded-lg bg-white-6">
+                        <input  className="w-full p-6 bg-transparent text-white-30" 
                                 type={showPassword ? "text" : "password"}
                                 value={confirmPassword}
                                 onChange={(e) => setConfirmPassword(e.target.value)}
@@ -100,7 +100,7 @@ export default function Register () {
                     </div>
 
                 
-                <button className={`mt-10 ${styles.button1}`} type="submit" >Register</button>
+                <button className={`mt-10 ${styles.button1} text-white`} type="submit" >Register</button>
 
                 </div>
                 </form>
