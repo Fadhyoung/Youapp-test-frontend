@@ -17,7 +17,7 @@ export default function Home() {
   useEffect(() => {
     setBackground("bg-default");
     setInterests(Interests);
-  }, [setBackground])
+  }, [setBackground, Interests])
 
   const handleInterest = (e) => {
     if (e.key === "Enter" && e.target.value.trim() !== "") {

@@ -38,7 +38,7 @@ export default function Home() {
 
   useEffect(() => {
     fetchProfileData();
-  }, [syncProfile])
+  }, [syncProfile, fetchProfileData])
 
   const handleInterest = () => {
     event.preventDefault();

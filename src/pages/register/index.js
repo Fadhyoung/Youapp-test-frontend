@@ -5,7 +5,7 @@ import { useState } from "react";
 
 import { registerUser } from "@/services/authService";
 
-export default function login ({}) {
+export default function Register ({}) {
 
     const [email, setEmail] = useState();
     const [username, setUsername] = useState();

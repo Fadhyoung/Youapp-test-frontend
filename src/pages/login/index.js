@@ -1,4 +1,5 @@
 import Styles from "./login.module.css"
+import Link from "next/link";
 
 import { useBackground } from "@/context/BackgroundContext";
 
@@ -10,7 +11,7 @@ import { useRouter } from "next/router";
 import { loginUser } from "@/services/authService";
 import BlindGoldIcon, {EyeGoldIcon} from "@/components/Icons";
 
-export default function login () {
+export default function Login () {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -31,7 +32,6 @@ export default function login () {
 
     useEffect(() => {
         setBackground("bg-default");        
-
     }, [setBackground])
 
     const handleLogin = async (e) => {
@@ -93,7 +93,7 @@ export default function login () {
                 </div>
                 </form>
 
-                <p className="mt-20 text-center">No Account? <a className="text-gold underline" href="/register">Register Here</a></p>
+                <p className="mt-20 text-center">No Account? <Link className="text-gold underline" href="/register">Register Here</Link></p>
 
             </div>
         </>

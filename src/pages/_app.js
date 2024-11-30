@@ -23,7 +23,7 @@ function AuthGuard({ children }) {
     if (!isAuthenticated && !publicRoutes.includes(router.pathname)) {
       router.push('/login');
     }
-  }, [isAuthenticated, router]);
+  }, [isAuthenticated, router, publicRoutes]);
 
   if (!isAuthenticated && router.pathname !== '/login') {
       return null;
