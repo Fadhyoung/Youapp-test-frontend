@@ -28,7 +28,7 @@ export default function Login () {
             const storedEmail = localStorage.getItem('email') || 'user@example.com'; // Default email if not set
             setEmail(storedEmail);
         }
-    })
+    }, [email])
 
     useEffect(() => {
         setBackground("bg-default");        

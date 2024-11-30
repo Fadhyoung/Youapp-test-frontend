@@ -37,8 +37,25 @@ export default function Home() {
   }, [setBackground])
 
   useEffect(() => {
-    fetchProfileData();
-  }, [syncProfile, fetchProfileData])
+
+      try {
+        console.log("trying fetch data", "the profil is", Profile)
+        setProfile(Profile)
+        setOnEdit(Edit)
+        setDisplayName(DisplayName)
+        setBirthday(Birthday)
+        setHoroscope(Horoscope)
+        setZodiac(Zodiac)
+        setHeight(Height)
+        setWeight(Weight)
+        setInterest(Interests)
+    
+        console.log("succedd fetch data", DisplayName, Birthday)
+      } catch (error) {
+        console.error('Failed to fetch profile data:', error);
+      }
+
+  }, [syncProfile])
 
   const handleInterest = () => {
     event.preventDefault();
@@ -141,6 +158,7 @@ const handleCreateProfile = async (e) => {
 
     try {
         await createProfile({ displayName, birthday, height, weight, interest });
+        await syncProfile();
         await router.push('/');
         console.log("pushed")
     } catch (error) {
@@ -148,30 +166,12 @@ const handleCreateProfile = async (e) => {
     }
 };
 
-const fetchProfileData = async () => {
-  try {
-    console.log("trying fetch data", "the profil is", Profile)
-    setProfile(Profile)
-    setOnEdit(Edit)
-    setDisplayName(DisplayName)
-    setBirthday(Birthday)
-    setHoroscope(Horoscope)
-    setZodiac(Zodiac)
-    setHeight(Height)
-    setWeight(Weight)
-    setInterest(Interests)
-
-    console.log("succedd fetch data", DisplayName, Birthday)
-  } catch (error) {
-    console.error('Failed to fetch profile data:', error);
-  }
-};
-
 const handleUpdateProfile = async (e) => {
 
   try {
       await updateProfile({ displayName, birthday, height, weight, interest });
       handleEditProfile()
+      await syncProfile();
       await router.push('/');
       console.log("pushed")
   } catch (error) {

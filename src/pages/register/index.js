@@ -1,7 +1,11 @@
 import styles from "./register.module.css";
 import BlindGoldIcon, {EyeGoldIcon} from "@/components/Icons";
 import { useRouter } from "next/router";
+import Link from "next/link";
+
 import { useState } from "react";
+
+
 
 import { registerUser } from "@/services/authService";
 
@@ -103,7 +107,7 @@ export default function Register ({}) {
                 </div>
                 </form>
 
-                <p className="mt-5 text-center">Have an account? <a className="text-gold underline" href="/login">Login Here</a></p>
+                <p className="mt-5 text-center">Have an account? <Link className="text-gold underline" href="/login">Login Here</Link></p>
 
             </div>
 

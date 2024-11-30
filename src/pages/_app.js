@@ -17,13 +17,16 @@ function AuthGuard({ children }) {
   const { isAuthenticated } = useAuth();
   const router = useRouter();
 
-  const publicRoutes = ['/login', '/register'];
+  
 
   useEffect(() => {
+
+    const publicRoutes = ['/login', '/register'];
+
     if (!isAuthenticated && !publicRoutes.includes(router.pathname)) {
       router.push('/login');
     }
-  }, [isAuthenticated, router, publicRoutes]);
+  }, [isAuthenticated, router]);
 
   if (!isAuthenticated && router.pathname !== '/login') {
       return null;
