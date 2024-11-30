@@ -181,7 +181,7 @@ const handleUpdateProfile = async (e) => {
     <div className="p-2 flex flex-col gap-6">
       
       {/** IMG CONTAINER */}
-      <div className="w-full rounded-xl h-60 foreground2">
+      <div className="w-full relative rounded-xl h-60 foreground2">
       {imageFile ? (
         <img  
           src={imageFile}

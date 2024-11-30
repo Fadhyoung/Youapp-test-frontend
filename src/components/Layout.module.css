@@ -2,5 +2,6 @@
     background: radial-gradient(ellipse at top right, var(--background1), #1F4247 5%, #0D1D23 70%, #0D1D23 80%, var(--background2));
     width: 100%;
     min-height: 100vh;
+    color: white;
 }
 
