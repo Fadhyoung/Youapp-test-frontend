@@ -58,7 +58,7 @@ export default function Login () {
             {/** LOGIN CENTER CONTAINER */}
             <div className="w-10/12 h-screen m-auto flex flex-col gap-8 justify-center">
 
-                <h1 className="text-3xl font-bold">Login</h1>
+                <h1 className="text-3xl font-bold text-white">Login</h1>
 
                 <form onSubmit={handleLogin}>
                 <div className="flex flex-col gap-4">
@@ -93,7 +93,7 @@ export default function Login () {
                 </div>
                 </form>
 
-                <p className="mt-20 text-center">No Account? <Link className="text-gold underline" href="/register">Register Here</Link></p>
+                <p className="mt-20 text-center text-white">No Account? <Link className="text-gold underline" href="/register">Register Here</Link></p>
 
             </div>
         </>

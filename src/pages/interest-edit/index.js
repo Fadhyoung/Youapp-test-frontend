@@ -46,7 +46,7 @@ export default function Home() {
     <div className="p-8 flex flex-col gap-6 overflow-scroll">      
       
       <p className="text-gold2 font-medium">Tell everyone about yourself</p>
-      <h1 className="text-xl font-black">What interest you?</h1>
+      <h1 className="text-xl font-black text-white">What interest you?</h1>
 
       <div className="w-full p-6 flex flex-col gap-6 rounded-xl bg-white-6 mt-5">
         <input className="w-full pl-5 bg-transparent" 
@@ -59,7 +59,7 @@ export default function Home() {
           {
             interests.map((item, index) => (
 
-              <div key={index} className="px-4 py-2 flex gap-2 rounded-md bg-white-8">
+              <div key={index} className="px-4 py-2 flex gap-2 rounded-md text-white bg-white-8">
                 {item}
                 <svg xmlns="http://www.w3.org/2000/svg" 
                      fill="none" viewBox="0 0 24 24" 

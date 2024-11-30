@@ -191,7 +191,7 @@ const handleUpdateProfile = async (e) => {
       ) : (
         <div></div>
       )}
-        <span className="p-4 absolute bottom-0 font-semibold">{displayName}</span>
+        <span className="p-4 absolute bottom-0 text-white font-semibold">{displayName}</span>
 
       </div>
       
@@ -204,7 +204,7 @@ const handleUpdateProfile = async (e) => {
             <div className="w-full flex flex-col gap-6 rounded-xl foreground3">
             {/** UPPER SIDE */}
             <div className="w-full mb-5 flex justify-between">
-              <h1>About</h1>
+              <h1 className="text-white">About</h1>
               <button className="text-gold2" onClick={handleOption}>Link & Update</button>
             </div>
 
@@ -220,7 +220,7 @@ const handleUpdateProfile = async (e) => {
                     style={{ display: "none" }} // Hide the input
                     onChange={handleImageUpload}
                   />
-                <h1>Add Image</h1>
+                <h1 className="text-white">Add Image</h1>
             </div>
 
             {/** BOTTOM SIDE */}
@@ -331,8 +331,8 @@ const handleUpdateProfile = async (e) => {
             :            
             <div className="flex flex-col gap-8">
               <div className="flex justify-between">
-                <h1>About</h1>
-                <button onClick={handleEdit}><svg className="size-6 underline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                <h1 className="text-white">About</h1>
+                <button className="text-white" onClick={handleEdit}><svg className="size-6 underline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
                 </svg></button>
               </div>
@@ -361,8 +361,8 @@ const handleUpdateProfile = async (e) => {
       <div className="px-4 py-6 m-auto w-full flex flex-col gap-8 rounded-xl foreground3">
 
         <div className="flex justify-between">
-          <h1>Interest</h1>
-          <button onClick={handleInterest}><svg className="size-6 underline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+          <h1 className="text-white">Interest</h1>
+          <button className="text-white" onClick={handleInterest}><svg className="size-6 underline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
           </svg></button>
         </div>
@@ -372,7 +372,7 @@ const handleUpdateProfile = async (e) => {
           ?
           <div className="flex gap-2 flex-wrap">
           {interest.map((item, index) => (
-            <div key={index} className="px-4 py-2 rounded-md bg-white-8">
+            <div key={index} className="px-4 py-2 rounded-md text-white bg-white-8">
                 {item}
               </div>
           ))}
