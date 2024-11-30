@@ -55,7 +55,7 @@ export default function Home() {
         console.error('Failed to fetch profile data:', error);
       }
 
-  }, [syncProfile])
+  }, [Profile, Edit, DisplayName, Birthday, Horoscope, Zodiac, Height, Weight, Interests, syncProfile])
 
   const handleInterest = () => {
     event.preventDefault();
