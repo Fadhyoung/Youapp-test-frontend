@@ -22,22 +22,29 @@ export const ProfileProvider = ({ children }) => {
     // SYNCRON THE PROFILE
     const syncProfile = async () => {
 
-        const profileData = await getProfile();
-        console.log('Profile Data:', profileData.data);
-        const { name, birthday, horoscope, zodiac, height, weight, interests } = profileData.data;
-        if (name && birthday && horoscope && zodiac && height && weight && interests) {
-            setProfile(true);
-            setDisplayName(name);
-            setBirthday(birthday);
-            setHoroscope(horoscope);
-            setZodiac(zodiac);
-            setHeight(height);
-            setWeight(weight);
-            setinterests(interests);
-        } else {
-            setProfile(false);
+
+        try {
+            const profileData = await getProfile();
+            console.log('Profile Data:', profileData.data);
+            const { name, birthday, horoscope, zodiac, height, weight, interests } = profileData.data;
+            if (name || birthday || horoscope || zodiac || height || weight || interests) {
+                setProfile(true);
+                setDisplayName(name);
+                setBirthday(birthday);
+                setHoroscope(horoscope);
+                setZodiac(zodiac);
+                setHeight(height);
+                setWeight(weight);
+                setinterests(interests);
+            } else {
+                setProfile(false);
+            }
+        console.log("profile: ", Profile)
+        } catch {
+
         }
 
+        
     };
 
     // UPDATEINTERESTS STATE

@@ -12,8 +12,8 @@ const Navbar = ({interestsSave}) => {
   const showDisplayName = router.pathname !== '/login';
   const showSaveButton = router.pathname === '/interest-edit';
 
-  const handleback = () => {
-    if (router.pathname !== '/') {
+  const handleback = async () => {
+    if (router.pathname !== '/') {      
       router.back();
   }
   }

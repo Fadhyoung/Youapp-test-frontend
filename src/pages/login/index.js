@@ -30,7 +30,7 @@ export default function Login () {
 
     // SET THE BACKGROUND BASE ON USER INTERACE DESIGN
     useEffect(() => {
-        setBackground("bg-default");        
+        setBackground("bg-default");       
     }, [setBackground])
 
     // HANDLE LOGIN: POST DATA THROUGH SERVICE -> LGIN DATA THROUGH AUTHCONTEXT -> SNYCRONIZE PROFILE THROUGH PROFILECONTEXT -> PUSH TO PAGES
@@ -41,10 +41,9 @@ export default function Login () {
             const isEmail = /\S+@\S+\.\S+/.test(loginInput);
             console.log(isEmail)
             const { responseData, matchedEmail } = await loginUser({ isEmail, loginInput, password });            
-            await login({ loginInput, password, responseData });
-            await syncProfile();
-            await router.push('/');
+            await login({ loginInput, password, responseData });            
             console.log("Login Success")
+            await router.push('/');            
         } catch (error) {
             console.error('Login failed', error);
             setMessage(localStorage.getItem("fetch_message"));

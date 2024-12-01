@@ -25,27 +25,36 @@ export const loginUser = async ({ isEmail, loginInput, password }) => {
       localStorage.setItem("fetch_message" , response.data.message)
     }      
   } catch (error) {
-    console.log(`Login failed: `, response.data.message);
+    console.log(`Login failed: `, error.response.data.message);
+    localStorage.setItem("fetch_message" , error.response.data.message)
   }
 
   };
 
 export const registerUser = async ({ email, username, password }) => {
 
-  const response = await axios.post('https://techtest.youapp.ai/api/register', {
-    email,
-    username,
-    password,
-  });
+  try {
 
-  let emailList = JSON.parse(localStorage.getItem('emails')) || [];
+    const response = await axios.post('https://techtest.youapp.ai/api/register', {
+      email,
+      username,
+      password,
+    });
 
-  if (!emailList.includes(email)) {
-
-    emailList.push(email);
+    console.log("respon registration,", response)
     
-    localStorage.setItem('emails', JSON.stringify(emailList));
+    if (response.status === 201 && response.data.message === 'User has been created successfully') { 
+      localStorage.setItem("fetch_message" , response.data.message)             
+      return response.data;
+    } else {
+      console.log(`Registration information: ${response.data.message}`);
+      localStorage.setItem("fetch_message" , response.data.message)
+      return null;
+    }      
+  } catch (error) {
+    console.log(`Registration failed: `, error.response.data.message);
+    localStorage.setItem("fetch_message" , error.response.data.message);
+    return response.data;
   }
 
-  return response.data;
 };

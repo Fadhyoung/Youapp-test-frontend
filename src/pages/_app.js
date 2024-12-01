@@ -17,8 +17,6 @@ function AuthGuard({ children }) {
   const { isAuthenticated } = useAuth();
   const router = useRouter();
 
-  
-
   useEffect(() => {
 
     const publicRoutes = ['/login', '/register'];

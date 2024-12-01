@@ -43,10 +43,15 @@ export default function Register () {
         try {
             const response = await registerUser({ email, username, password });
             console.log(response.message);
+            setMessage(localStorage.getItem("fetch_message"));
+            setEmail("");setUsername(""); setPassword("");setConfirmPassword("")
+            setShowModal(true)
             await router.push('/login');
         } catch (error) {
             console.error('Registration failed', error);
-            setShowModal('Registration failed', error)
+            setMessage(localStorage.getItem("fetch_message"));
+            setEmail("");setUsername(""); setPassword("");setConfirmPassword("")
+            setShowModal(true)
         }}
     };
 

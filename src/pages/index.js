@@ -6,6 +6,7 @@ import { createProfile, updateProfile } from '@/services/profileService';
 
 import { useProfile } from '@/context/ProfileContext';
 
+import Modal from "@/components/Modals";
 import { PlusGoldIcon } from "@/components/Icons";
 
 export default function Home() {
@@ -26,6 +27,9 @@ export default function Home() {
   const [weight, setWeight] = useState(0);
   const [interest, setInterest] = useState([""]);
 
+  const [showModal, setShowModal] = useState(false);
+  const [message, setMessage] = useState("")
+
   const [onEdit, setOnEdit] = useState(false);
   const router = useRouter();
   const {setBackground} = useBackground();
@@ -33,6 +37,7 @@ export default function Home() {
   // FIRST THINGS HAPPEND IN THIS PAGE: SETTING THE PAGE THEME DEPEND ON USER INTERFACE DESIGN
   useEffect(() => {
     setBackground("bg-secondary");
+    syncProfile(); 
   }, [setBackground])
 
   // SECOND THINGS HAPPEND IN THIS PAGE: FILLING ALL STATE WITH PROFILE
@@ -49,8 +54,9 @@ export default function Home() {
         setWeight(Weight)
         setInterest(Interests)
 
-        const userImage = localStorage.getItem('user_image');
-        userImage ? setImageFile(userImage) : localStorage.setItem('user_image', null);
+        const userImage = localStorage.getItem(`user_image_${displayName}`);
+        console.log("user img: ",displayName, userImage)
+        userImage ? setImageFile(userImage) : setImageFile(null)
     
         console.log("Profile detected: ", Profile, Edit, DisplayName, Birthday, Horoscope, Zodiac, Height, Weight, Interests)
       } catch (error) {
@@ -78,11 +84,21 @@ export default function Home() {
   // HANDLE UPLOAD IMAGE
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
-    if (file) {
-      const objectURL = URL.createObjectURL(file);
-      localStorage.setItem('user_image', objectURL);
-      setImageFile(objectURL);
-      console.log("Uploaded file:", file);
+    
+    if (file && displayName) {
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        const base64String = reader.result;
+        localStorage.setItem(`user_image_${displayName}`, base64String);
+        setImageFile(base64String); // Set the base64 string for rendering the image
+        console.log("Uploaded file:", file);
+      };
+
+      reader.readAsDataURL(file);
+    } else {
+      setMessage("Create display name pofile first")
+      setShowModal(true)
     }
   };
 
@@ -169,10 +185,10 @@ export default function Home() {
   const handleCreateProfile = async (e) => {
 
       try {
+        console.log("prepared data: ", displayName, birthday, height, weight, interest)
           await createProfile({ displayName, birthday, height, weight, interest });
           await syncProfile();
           await router.push('/');
-          console.log("pushed")
       } catch (error) {
           console.error('Create profile failed', error);
       }
@@ -193,15 +209,21 @@ export default function Home() {
   };
 
   return (
+    <>
+
+    {showModal && (
+                    <Modal showModal={showModal} onClose={() => setShowModal(false)} message={message} />
+                )}
+
     <div className="p-2 flex flex-col gap-6">
       
       {/** IMG CONTAINER */}
-      <div className="w-full relative rounded-xl h-60 foreground2">
+      <div className="w-full relative h-60 foreground2">
       {imageFile ? (
         <img  
           src={imageFile}
           alt="Uploaded Image"
-          className="h-full w-full object-cover"
+          className="h-full w-full object-cover rounded-xl"
         />
       ) : (
         <div></div>
@@ -226,9 +248,17 @@ export default function Home() {
 
             {/** ADD IMAGE BUTTON BAR */}
             <div className="flex gap-8 items-center">
-                <button className="p-5 rounded-3xl bg-white-8" onClick={() => document.getElementById("imageUpload").click()}>
-                  <PlusGoldIcon className="size-10 hover:scale-150" />
-                </button>
+            { imageFile !== null
+                  ? 
+                    <button className="rounded-3xl bg-white-8" onClick={() => document.getElementById("imageUpload").click()}>
+                      <img src={imageFile} alt="Uploaded Image" className="size-14 object-cover rounded-3xl"/>
+                    </button>
+                  : 
+                    <button className="p-5 rounded-3xl bg-white-8" onClick={() => document.getElementById("imageUpload").click()}>
+                      <PlusGoldIcon className="size-10 hover:scale-150" />
+                    </button>
+                   }
+                
                   <input
                     id="imageUpload"
                     type="file"
@@ -400,5 +430,6 @@ export default function Home() {
       </div>
 
     </div>
+    </>
   );
 }
