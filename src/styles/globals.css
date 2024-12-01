@@ -38,9 +38,10 @@ body {
   min-height: 100vh;
 }
 
-.bg-secondary {
-  background-color: var(--background3);
-}
+.bg-secondary { background-color: var(--background3) }
+.bg-modal { 
+  background-color: rgb(14, 26, 32, 0.75);
+  backdrop-filter: blur(10px); }
 
 .text-white-52 { color: rgb(255, 255, 255, 0.52) ;}
 .text-white-33 { color: rgb(255, 255, 255, 0.33) ;}

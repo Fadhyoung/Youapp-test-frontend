@@ -1,5 +1,7 @@
 import styles from "./register.module.css";
 import BlindGoldIcon, {EyeGoldIcon} from "@/components/Icons";
+import Modal from "@/components/Modals";
+
 import { useRouter } from "next/router";
 import Link from "next/link";
 
@@ -9,22 +11,34 @@ import { registerUser } from "@/services/authService";
 
 export default function Register () {
 
-    const [email, setEmail] = useState();
-    const [username, setUsername] = useState();
-    const [password, setPassword] = useState();
-    const [confirmPassword, setConfirmPassword] = useState();
+    // LOCAL STATE
+    const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [showModal, setShowModal] = useState(false);
+    const [message, setMessage] = useState("")
+    const [isFormValid, setIsFormValid] = useState(false);
     const router = useRouter();
 
+    // HANDLE REGISTER
     const handleRegister = async (e) => {
         e.preventDefault();
 
         if (password !== confirmPassword) {
-            console.error('Passwords do not match');
+            setMessage('Passwords do not match');
             setShowModal(true);
-            return; // Exit the function early if validation fails
+            setEmail("");setUsername("");setPassword("");setConfirmPassword("");
+            return;
         } else {
+
+        const isValid = username.trim() && email.trim() && password.trim();
+        setIsFormValid(isValid);
+
+        if (!isValid) {
+            setMessage("Fill all the input"); setShowModal(true); setShowModal(true); 
+            setEmail("");setUsername("");setPassword("");setConfirmPassword("");; return;}
 
         try {
             const response = await registerUser({ email, username, password });
@@ -32,19 +46,28 @@ export default function Register () {
             await router.push('/login');
         } catch (error) {
             console.error('Registration failed', error);
+            setShowModal('Registration failed', error)
         }}
     };
 
+    // TOGGLE EYE VISIBILITY
     const togglePasswordVisibility = () => {
         setShowPassword((prev) => !prev);
     };
 
     return (
         <>
-            {/** LOGIN CENTER CONTAINER */}
+            {/** REGISTER CENTER CONTAINER */}
+            <div className="w-full h-full m-auto relative">
+
+            {/* MODAL */}
+            {showModal && (
+                    <Modal showModal={showModal} onClose={() => setShowModal(false)} message={message} />
+                )}
+
             <div className="w-10/12 h-full m-auto flex flex-col gap-8 justify-center">
 
-                <h1 className="text-3xl font-bold">Register</h1>
+                <h1 className="text-3xl font-bold text-white">Register</h1>
 
                 <form onSubmit={handleRegister}>
                 <div className="flex flex-col gap-4">
@@ -105,20 +128,10 @@ export default function Register () {
                 </div>
                 </form>
 
-                <p className="mt-5 text-center">Have an account? <Link className="text-gold underline" href="/login">Login Here</Link></p>
+                <p className="mt-5 text-center text-white">Have an account? <Link className="text-gold underline" href="/login">Login Here</Link></p>
 
             </div>
-
-            {/* Modal */}
-            {showModal && (
-                <div className="modal">
-                    <div className="modal-content">
-                        <p>Passwords do not match!</p>
-                        <button onClick={() => setShowModal(false)}>Close</button>
-                    </div>
-                </div>
-            )}
-
+            </div>
         </>
     )
 }

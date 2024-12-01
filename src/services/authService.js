@@ -1,34 +1,31 @@
 import axios from "axios";
 
-export const loginUser = async ({ username, password }) => {
+export const loginUser = async ({ isEmail, loginInput, password }) => {
 
-  const emails = JSON.parse(localStorage.getItem('emails')) || [];
+  try {
 
-  if (emails.length === 0) {
-    throw new Error('No emails found in local storage');
-  }
+    const payload = isEmail
+      ? {
+          email: loginInput,
+          username: '',
+          password,
+        }
+      : {
+          email: '',
+          username: loginInput,
+          password,
+        };
 
-  console.log(emails)
-
-  for (const email of emails) {
-
-    console.log(email)
-
-    try {
-      const response = await axios.post('https://techtest.youapp.ai/api/login', {
-        email,     
-        username,  
-        password,  
-      });
-      
-      if (response.status === 201 && response.data.message === 'User has been logged in successfully') {                
-        return { responseData: response.data, matchedEmail: email };
-      } else {
-        console.log(`Login information fo: ${email} - ${response.data.message}`);
-      }      
-    } catch (error) {
-      console.log(`Login failed for email: ${email}`, response.data.message);
-    }
+    const response = await axios.post('https://techtest.youapp.ai/api/login', payload);
+    
+    if (response.status === 201 && response.data.message === 'User has been logged in successfully') {                
+      return { responseData: response.data};
+    } else {
+      console.log(`Login information: ${response.data.message}`);
+      localStorage.setItem("fetch_message" , response.data.message)
+    }      
+  } catch (error) {
+    console.log(`Login failed: `, response.data.message);
   }
 
   };

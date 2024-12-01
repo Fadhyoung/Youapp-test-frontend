@@ -5,6 +5,8 @@ import { getProfile } from '@/services/profileService';
 const ProfileContext = createContext();
 
 export const ProfileProvider = ({ children }) => {
+
+    // LOCAL STATE
     const [Profile, setProfile] = useState(false);
     const [Edit, setEdit] = useState(false);
     const [DisplayName, setDisplayName] = useState("");
@@ -15,8 +17,9 @@ export const ProfileProvider = ({ children }) => {
     const [Weight, setWeight] = useState(0);
     const [Interests, setinterests] = useState([""]);
 
-    console.log ("profil context: ", Profile, "Edit: ", Edit, DisplayName, Birthday, Height, Zodiac, Height, Weight, Interests)
+    // console.log ("profil context: ", Profile, "Edit: ", Edit, DisplayName, Birthday, Height, Zodiac, Height, Weight, Interests)
 
+    // SYNCRON THE PROFILE
     const syncProfile = async () => {
 
         const profileData = await getProfile();
@@ -37,6 +40,7 @@ export const ProfileProvider = ({ children }) => {
 
     };
 
+    // UPDATEINTERESTS STATE
     const syncInterests = async ({interests = []}) => {
 
         console.log("syncInterest: ", interests);
@@ -44,6 +48,7 @@ export const ProfileProvider = ({ children }) => {
         setinterests(interests)
     }
 
+    // HANDLE EDIT PROFILE
     const handleEditProfile = () => {
         setEdit((prevEdit) => !prevEdit);
         console.log("edit: ", Edit)

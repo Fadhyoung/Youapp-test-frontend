@@ -23,14 +23,10 @@ export const AuthProvider = ({ children }) => {
 
     const login = async ({ email, username, password, responseData = {} }) => {
 
-        console.log("Enter register service with email of: ", email)
-        console.log("token: ", responseData.access_token)
-
         try {        
             const access_token  = responseData.access_token;
             sessionStorage.setItem('access_token', access_token);
             setAccessToken(access_token);
-            console.log("responses: ", responseData)
             setUser({ email, username });
             setIsAuthenticated(true);
             router.replace('/');

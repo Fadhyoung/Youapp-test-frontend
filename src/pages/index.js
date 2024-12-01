@@ -2,7 +2,7 @@ import { useBackground, bac } from "@/context/BackgroundContext";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 
-import { createProfile, getProfile, updateProfile } from '@/services/profileService';
+import { createProfile, updateProfile } from '@/services/profileService';
 
 import { useProfile } from '@/context/ProfileContext';
 
@@ -10,8 +10,10 @@ import { PlusGoldIcon } from "@/components/Icons";
 
 export default function Home() {
 
+  // LOADING ALL PROFILE STATE FROM PROFILE CONTEXT
   const { Profile, Edit, DisplayName, Birthday, Horoscope, Zodiac, Height, Weight, Interests, handleEditProfile, syncProfile } = useProfile();
 
+  // LOCAL STATE
   const [profile, setProfile] = useState(false);
   const [imageFile, setImageFile] = useState(null);
   const [displayName, setDisplayName] = useState("");
@@ -24,20 +26,19 @@ export default function Home() {
   const [weight, setWeight] = useState(0);
   const [interest, setInterest] = useState([""]);
 
-  // console.log("content: ",profile, "Edit : ", Edit, imageFile, displayName, gender, birthday, horoscope, zodiac, height, weight)
-
   const [onEdit, setOnEdit] = useState(false);
   const router = useRouter();
   const {setBackground} = useBackground();
 
+  // FIRST THINGS HAPPEND IN THIS PAGE: SETTING THE PAGE THEME DEPEND ON USER INTERFACE DESIGN
   useEffect(() => {
     setBackground("bg-secondary");
   }, [setBackground])
 
+  // SECOND THINGS HAPPEND IN THIS PAGE: FILLING ALL STATE WITH PROFILE
   useEffect(() => {
 
-      try {
-        console.log("trying fetch data", "the profil is", Profile)
+      try {        
         setProfile(Profile)
         setOnEdit(Edit)
         setDisplayName(DisplayName)
@@ -51,18 +52,21 @@ export default function Home() {
         const userImage = localStorage.getItem('user_image');
         userImage ? setImageFile(userImage) : localStorage.setItem('user_image', null);
     
-        console.log("succedd fetch data", DisplayName, Birthday)
+        console.log("Profile detected: ", Profile, Edit, DisplayName, Birthday, Horoscope, Zodiac, Height, Weight, Interests)
       } catch (error) {
-        console.error('Failed to fetch profile data:', error);
+        console.error("Profile doesn't detected:", error);
       }
 
+  // SET ALL DEPENDANCY DEPEND ON ALL STATE: MAKE SURE IF THERES CHANGES HAPPEND, THIS EFFECT WILL RUNNED AGAIN
   }, [Profile, Edit, DisplayName, Birthday, Horoscope, Zodiac, Height, Weight, Interests, syncProfile])
 
+  // HANDLE INTERES EDIT BUTTON
   const handleInterest = () => {
     event.preventDefault();
     router.push('/interest-edit')
   }  
 
+  // HANDLE EDIT BUTTON, TO MAKE SURE USER STILL IN EDIT MODE OR NOT
   const handleEdit = () => {
     if (onEdit == true) {
       handleEditProfile();
@@ -71,6 +75,7 @@ export default function Home() {
       setOnEdit(true);
       handleEditProfile();}};
 
+  // HANDLE UPLOAD IMAGE
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -89,6 +94,7 @@ export default function Home() {
     setDropdownGenderVisible(false); // Close dropdown after selection
   };
 
+  // HOROSCOPE LOGIC
   const getZodiacSign = (date) => {
     const month = new Date(date).getMonth() + 1; // months are 0-indexed
     const day = new Date(date).getDate();
@@ -122,6 +128,7 @@ export default function Home() {
     return '';
   };
 
+  // ZODIAC LOGIC
   const getChineseZodiac = (year) => {
     const chineseZodiacSigns = [
       'Rat', 'Ox', 'Tiger', 'Rabbit', 'Dragon', 'Snake', 'Horse', 'Goat', 'Monkey', 'Rooster', 'Dog', 'Pig'
@@ -135,6 +142,7 @@ export default function Home() {
     return chineseZodiacSigns[index];
   };
 
+  // AUTO DETECTION HOROSCOPE AND ZODIAC HERE
   const handleDateChange = (e) => {
     const inputDate = e.target.value;
     setBirthday(inputDate);
@@ -147,39 +155,42 @@ export default function Home() {
     setZodiac(chineseZodiacSign)    
   };
 
+  // TOGGLE MEASUREMENT HEIGHT HERE
   const toggleMeasurement = () => {
     setHeightMeasurement(prevMeasurement => (prevMeasurement === "cm" ? "inches" : "cm"));
   };
 
+  // HANDLE IPTION FOR SAVE AND UPDATE: PROFILE IS CONDITION THAT USER HAS PROFILE OR NOT
+  const handleOption = (e) => {
+    profile ? handleUpdateProfile() : handleCreateProfile()
+  }
 
-const handleOption = (e) => {
-  profile ? handleUpdateProfile() : handleCreateProfile()
-}
+  // HANDLE CREATE PROFILE
+  const handleCreateProfile = async (e) => {
 
-const handleCreateProfile = async (e) => {
+      try {
+          await createProfile({ displayName, birthday, height, weight, interest });
+          await syncProfile();
+          await router.push('/');
+          console.log("pushed")
+      } catch (error) {
+          console.error('Create profile failed', error);
+      }
+  };
+
+  // HANDLE EDIT PROFILE
+  const handleUpdateProfile = async (e) => {
 
     try {
-        await createProfile({ displayName, birthday, height, weight, interest });
+        await updateProfile({ displayName, birthday, height, weight, interest });
+        handleEditProfile()
         await syncProfile();
         await router.push('/');
         console.log("pushed")
     } catch (error) {
-        console.error('Create profile failed', error);
+        console.error('Update profile failed', error);
     }
-};
-
-const handleUpdateProfile = async (e) => {
-
-  try {
-      await updateProfile({ displayName, birthday, height, weight, interest });
-      handleEditProfile()
-      await syncProfile();
-      await router.push('/');
-      console.log("pushed")
-  } catch (error) {
-      console.error('Update profile failed', error);
-  }
-};
+  };
 
   return (
     <div className="p-2 flex flex-col gap-6">
@@ -202,17 +213,18 @@ const handleUpdateProfile = async (e) => {
       {/** ABOUT */}
       <div className="px-8 py-6 m-auto w-full flex flex-col gap-8 rounded-xl foreground3">        
 
-        {
+        { // CONDITION HERE, DETERMIND USER IN EDIT MODE OR NOT
           onEdit 
-            ? 
+            ? // IF IT YES
             <div className="w-full flex flex-col gap-6 rounded-xl foreground3">
-            {/** UPPER SIDE */}
+
+            {/** SAVE UPDATE BAR */}
             <div className="w-full mb-5 flex justify-between">
               <h1 className="text-white">About</h1>
               <button className="text-gold2" onClick={handleOption}>Link & Update</button>
             </div>
 
-            {/** MID SIDE */}
+            {/** ADD IMAGE BUTTON BAR */}
             <div className="flex gap-8 items-center">
                 <button className="p-5 rounded-3xl bg-white-8" onClick={() => document.getElementById("imageUpload").click()}>
                   <PlusGoldIcon className="size-10 hover:scale-150" />
@@ -227,7 +239,7 @@ const handleUpdateProfile = async (e) => {
                 <h1 className="text-white">Add Image</h1>
             </div>
 
-            {/** BOTTOM SIDE */}
+            {/** USER EDIT FORM SIDE */}
             <div className="w-full h-auto flex flex-col gap-3">
     
               {/** Display Name */}
@@ -332,7 +344,7 @@ const handleUpdateProfile = async (e) => {
     
             </div>
             </div>
-            :            
+            : // IF IT NOT: Dispaly default interface
             <div className="flex flex-col gap-8">
               <div className="flex justify-between">
                 <h1 className="text-white">About</h1>
@@ -342,8 +354,8 @@ const handleUpdateProfile = async (e) => {
               </div>
 
               {
-                profile
-                ?
+                profile // CONDITION TO CHECK WHETHER USER HAS PROFILE OR NOT
+                ? // IF THEY HAVE: DISPLAY PROFILE
                 <div className='flex flex-col gap-3 text-white-33'>
                   <div>Birthday: <span className='text-white'>{birthday}</span> </div>
                   <div>Horoscope: <span className='text-white'>{horoscope}</span> </div>
@@ -351,7 +363,7 @@ const handleUpdateProfile = async (e) => {
                   <div>height: <span className='text-white'>{height}</span> {heightMeasurement} </div>
                   <div>weight: <span className='text-white'>{weight}</span> kg </div>
                 </div>
-                :
+                : // IF THEY DONT HAVE: DISPLAY DESCRIPTION
                 <div className="text-white-52"><p>Add in your about to help others know yout better</p></div>
               }
 
